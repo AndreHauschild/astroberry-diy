@@ -39,17 +39,19 @@ public:
 	static void temperatureCompensationHelper(void *context);
 protected:
 	virtual IPState MoveAbsFocuser(int ticks);
-	virtual IPState MoveRelFocuser(FocusDirection dir, int ticks);
+	virtual IPState MoveRelFocuser(FocusDirection dir, uint32_t ticks);
 	virtual bool saveConfigItems(FILE *fp);
 	virtual bool ReverseFocuser(bool enabled);
 	virtual bool AbortFocuser();
 	virtual void TimerHit();
+        virtual bool SyncFocuser(uint32_t ticks) override;
 private:
 	virtual bool Connect();
 	virtual bool Disconnect();
 	virtual void SetResolution(int res);
 	virtual int savePosition(int pos);
 	virtual bool readDS18B20();
+	virtual void stepMotor(int direction);
 
 	ISwitch MotorDirS[2];
 	ISwitchVectorProperty MotorDirSP;
@@ -57,9 +59,11 @@ private:
 	ISwitchVectorProperty FocusResolutionSP;
 	INumber FocuserInfoN[3];
 	INumberVectorProperty FocuserInfoNP;
+	ISwitch FocusStepChangeS[2];
+	ISwitchVectorProperty FocusStepChangeSP;
 	ISwitch MotorBoardS[2];
 	ISwitchVectorProperty MotorBoardSP;
-	INumber BCMpinsN[6];
+	INumber BCMpinsN[4];
 	INumberVectorProperty BCMpinsNP;
 	INumber FocusStepDelayN[1];
 	INumberVectorProperty FocusStepDelayNP;
@@ -81,12 +85,16 @@ private:
 	ISwitchVectorProperty TemperatureCompensateSP;
 
 	struct gpiod_chip *chip;
-	struct gpiod_line *gpio_dir;
-	struct gpiod_line *gpio_step;
-	struct gpiod_line *gpio_sleep;
-	struct gpiod_line *gpio_m1;
-	struct gpiod_line *gpio_m2;
-	struct gpiod_line *gpio_m3;
+        struct gpiod_line *gpio_in1;
+        struct gpiod_line *gpio_in2;
+        struct gpiod_line *gpio_in3;
+        struct gpiod_line *gpio_in4;
+
+	int backlashTicksRemaining;
+	int ticksRemaining;
+	int lastDirection = 0;
+	int currentStep = -1;
+	bool abortStep = false;
 
 	int resolution = 1;
 	float lastTemperature;
