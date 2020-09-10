@@ -7,7 +7,7 @@ Astroberry DIY provides the INDI drivers for Raspberry Pi devices:
 Features:
 * Astroberry Focuser
   - Support for virtually any stepper motor, including Moonlite, Robofocus
-  - Support for DRV8834 and A4988 stepper controllers
+  - Support for ULN2003 stepper controllers
   - Direct stepper motor control without proprietary drivers
   - Customizable GPIO pins
   - Absolute position control
@@ -15,7 +15,7 @@ Features:
   - Forward / Reverse direction configuration
   - Customizable maximum absolute position (steps)
   - Customizable maximum focuser travel (mm)
-  - Resolution control from full step to 1/32 microsteps
+  - Resolution control from full step to 1/2 microsteps
   - Backlash compensation
   - Speed control
   - Focuser info including: critical focus zone in μm, step size in μm, steps per critical focus zone
@@ -76,25 +76,14 @@ Note that your user account needs proper access right to /dev/gpiochip0 device. 
 
 1. Astroberry Focuser
 * A stepper motor
-* Stepper motor controller - DRV8834 and A4988 are supported
+* Stepper motor controller - ULN2003 supported
   Starting from version 2.5 you can set your own BCM Pins on Options Tab!
-  Default Motor Controller to Raspberry Pi GPIO wiring from v2.6 (changed!):
-   - BCM23 / PIN16 - DIR
-   - BCM24 / PIN18 - STEP
-   - BCM22 / PIN15 - SLEEP + RST
-   - BCM17 / PIN11 - M1/M0
-   - BCM18 / PIN12 - M2/M1
-   - BCM27 / PIN13 - M3/-
+   - BCM17 / PIN12 - IN1
+   - BCM18 / PIN11 - IN2
+   - BCM27 / PIN13 - IN3
+   - BCM22 / PIN15 - IN4
 
-  Default Motor Controller to Raspberry Pi GPIO wiring before v2.6:
-   - BCM04 / PIN7 - DIR
-   - BCM17 / PIN11 - STEP
-   - BCM23 / PIN16 - SLEEP + RST
-   - BCM22 / PIN15 - M1/M0
-   - BCM27 / PIN13 - M2/M1
-   - BCM24 / PIN18 - M3/-
-
-   Note: Make sure you connect the stepper motor correctly to the controller (B2, B1 and A2, A1 pins on the controller).
+   Note: Make sure you connect the stepper motor correctly to the controller.
          Remember to protect the power line connected to VMOT of the motor controller with 100uF capacitor.
 * DS18B20 temperature sensor connected to BCM4 / PIN7 for temperature reading and automatic temperature compensation
    Note: You need to use external 4k7 ohm pull-up resistor connected to data pin of DS18B20 sensor
