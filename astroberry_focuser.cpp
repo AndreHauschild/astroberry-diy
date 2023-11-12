@@ -230,10 +230,10 @@ bool AstroberryFocuser::initProperties()
 	IUFillSwitchVector(&MotorBoardSP,MotorBoardS,1,getDeviceName(),"MOTOR_BOARD","Control Board",OPTIONS_TAB,IP_RW,ISR_1OFMANY,0,IPS_IDLE);
 
 	// BCM PINs setting
-	IUFillNumber(&BCMpinsN[0], "BCMPIN_IN1", "IN1", "%0.0f", 1, 27, 0, 17); // BCM17 = PIN12
-	IUFillNumber(&BCMpinsN[1], "BCMPIN_IN2", "IN2", "%0.0f", 1, 27, 0, 18); // BCM18 = PIN11
-	IUFillNumber(&BCMpinsN[2], "BCMPIN_IN3", "IN3", "%0.0f", 1, 27, 0, 27); // BCM27 = PIN13
-	IUFillNumber(&BCMpinsN[3], "BCMPIN_IN4", "IN4", "%0.0f", 1, 27, 0, 22); // BCM22 = PIN15
+	IUFillNumber(&BCMpinsN[0], "BCMPIN_IN1", "IN1", "%0.0f", 1, 27, 0, 27); // BCM27 = PIN13
+	IUFillNumber(&BCMpinsN[1], "BCMPIN_IN2", "IN2", "%0.0f", 1, 27, 0, 22); // BCM22 = PIN15
+	IUFillNumber(&BCMpinsN[2], "BCMPIN_IN3", "IN3", "%0.0f", 1, 27, 0, 23); // BCM23 = PIN16
+	IUFillNumber(&BCMpinsN[3], "BCMPIN_IN4", "IN4", "%0.0f", 1, 27, 0, 24); // BCM24 = PIN18
 	IUFillNumberVector(&BCMpinsNP, BCMpinsN, 4, getDeviceName(), "BCMPINS", "BCM Pins", OPTIONS_TAB, IP_RW, 0, IPS_IDLE);
 
 	// Step delay setting
