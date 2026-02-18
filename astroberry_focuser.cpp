@@ -229,12 +229,12 @@ bool AstroberryFocuser::initProperties()
   IUFillSwitch(&MotorBoardS[0],"ULN2003","ULN2003",ISS_ON);
   IUFillSwitchVector(&MotorBoardSP,MotorBoardS,1,getDeviceName(),"MOTOR_BOARD","Control Board",OPTIONS_TAB,IP_RW,ISR_1OFMANY,0,IPS_IDLE);
 
-	// BCM PINs setting
-	IUFillNumber(&BCMpinsN[0], "BCMPIN_IN1", "IN1", "%0.0f", 1, 27, 0, 27); // BCM27 = PIN13
-	IUFillNumber(&BCMpinsN[1], "BCMPIN_IN2", "IN2", "%0.0f", 1, 27, 0, 22); // BCM22 = PIN15
-	IUFillNumber(&BCMpinsN[2], "BCMPIN_IN3", "IN3", "%0.0f", 1, 27, 0, 23); // BCM23 = PIN16
-	IUFillNumber(&BCMpinsN[3], "BCMPIN_IN4", "IN4", "%0.0f", 1, 27, 0, 24); // BCM24 = PIN18
-	IUFillNumberVector(&BCMpinsNP, BCMpinsN, 4, getDeviceName(), "BCMPINS", "BCM Pins", OPTIONS_TAB, IP_RW, 0, IPS_IDLE);
+  // BCM PINs setting
+  IUFillNumber(&BCMpinsN[0], "BCMPIN_IN1", "IN1", "%0.0f", 1, 27, 0, 27); // BCM27 = PIN13
+  IUFillNumber(&BCMpinsN[1], "BCMPIN_IN2", "IN2", "%0.0f", 1, 27, 0, 22); // BCM22 = PIN15
+  IUFillNumber(&BCMpinsN[2], "BCMPIN_IN3", "IN3", "%0.0f", 1, 27, 0, 23); // BCM23 = PIN16
+  IUFillNumber(&BCMpinsN[3], "BCMPIN_IN4", "IN4", "%0.0f", 1, 27, 0, 24); // BCM24 = PIN18
+  IUFillNumberVector(&BCMpinsNP, BCMpinsN, 4, getDeviceName(), "BCMPINS", "BCM Pins", OPTIONS_TAB, IP_RW, 0, IPS_IDLE);
 
   // Step delay setting
   IUFillNumber(&FocusStepDelayN[0], "FOCUS_STEPDELAY_VALUE", "milliseconds", "%0.0f", 1, 1000, 1, 20.0);
@@ -244,7 +244,7 @@ bool AstroberryFocuser::initProperties()
   IUFillNumber(&FocusBacklashN[0], "FOCUS_BACKLASH_VALUE", "steps", "%0.0f", 0, 1000, 10, 0);
   IUFillNumberVector(&FocusBacklashNP, FocusBacklashN, 1, getDeviceName(), "FOCUS_BACKLASH", "Backlash", OPTIONS_TAB, IP_RW, 0, IPS_IDLE);
 
-  // Reset absolute possition
+  // Reset absolute position
   IUFillSwitch(&ResetAbsPosS[0],"RESET_ABS","Purge",ISS_OFF);
   IUFillSwitchVector(&ResetAbsPosSP,ResetAbsPosS,1,getDeviceName(),"RESET_ABS_SW","Saved Position",OPTIONS_TAB,IP_RW,ISR_1OFMANY,0,IPS_IDLE);
 
@@ -391,7 +391,7 @@ bool AstroberryFocuser::ISNewNumber (const char *dev, const char *name, double v
             return false;
           }
 
-          // Verify unique BCM Pin assignement
+          // Verify unique BCM Pin assignment
           for (unsigned j = i + 1; j < valcount; j++)
           {
             if ( values[i] == values[j] )
@@ -679,8 +679,8 @@ bool AstroberryFocuser::ISNewSwitch (const char *dev, const char *name, ISState 
       int currentSteps = FocusRelPosN[0].value;
       int newSteps = currentSteps;
 
-                        //FOCUS_STEP_DOWN
-                        if ( FocusStepChangeS[0].s == ISS_ON )
+      //FOCUS_STEP_DOWN
+      if ( FocusStepChangeS[0].s == ISS_ON )
       {
         if (currentSteps > 200)
         {
@@ -690,71 +690,71 @@ bool AstroberryFocuser::ISNewSwitch (const char *dev, const char *name, ISState 
         {
           newSteps = 100;
         }
-                                else if (currentSteps > 50)
-                                {
-                                        newSteps = 50;
-                                }
-                                else if (currentSteps > 25)
-                                {
-                                        newSteps = 25;
-                                }
-                                else if (currentSteps > 10)
-                                {
-                                        newSteps = 10;
-                                }
-                                else if (currentSteps > 5)
-                                {
-                                        newSteps = 5;
-                                }
-                                else
-                                {
-                                        newSteps = 1;
-                                }
+        else if (currentSteps > 50)
+        {
+          newSteps = 50;
+        }
+        else if (currentSteps > 25)
+        {
+          newSteps = 25;
+        }
+        else if (currentSteps > 10)
+        {
+          newSteps = 10;
+        }
+        else if (currentSteps > 5)
+        {
+          newSteps = 5;
+        }
+        else
+        {
+          newSteps = 1;
+        }
       }
 
-                        //FOCUS_STEP_UP
-                        if ( FocusStepChangeS[1].s == ISS_ON )
+      //FOCUS_STEP_UP
+      if ( FocusStepChangeS[1].s == ISS_ON )
       {
-                                if (currentSteps < 5)
-                                {
-                                        newSteps = 5;
-                                }
-                                else if (currentSteps < 10)
-                                {
-                                        newSteps = 10;
-                                }
-                                else if (currentSteps < 25)
-                                {
-                                        newSteps = 25;
-                                }
-                                else if (currentSteps < 50)
-                                {
-                                        newSteps = 50;
-                                }
-                                else if (currentSteps < 100)
-                                {
-                                        newSteps = 100;
-                                }
-                                else
+        if (currentSteps < 5)
+        {
+          newSteps = 5;
+        }
+        else if (currentSteps < 10)
+        {
+          newSteps = 10;
+        }
+        else if (currentSteps < 25)
+        {
+          newSteps = 25;
+        }
+        else if (currentSteps < 50)
+        {
+          newSteps = 50;
+        }
+        else if (currentSteps < 100)
+        {
+          newSteps = 100;
+        }
+        else
         {
           newSteps = 200;
-                                }
+        }
       }
 
-                        FocusRelPosN[0].value = newSteps;
+      FocusRelPosN[0].value = newSteps;
 
       IDSetSwitch(&FocusStepChangeSP, nullptr);
       FocusStepChangeSP.s = IPS_IDLE;
-                        IDSetNumber(&FocusRelPosNP, nullptr);
-                        DEBUGF(INDI::Logger::DBG_SESSION, "# Focus Steps changed to %0.0f.", FocusRelPosN[0].value);
+      IDSetNumber(&FocusRelPosNP, nullptr);
+      DEBUGF(INDI::Logger::DBG_SESSION, "# Focus Steps changed to %0.0f.", FocusRelPosN[0].value);
 
-                        return true;
-                }
+      return true;
+    }
 
 
-          // handle temperature compensation
-          if(!strcmp(name, TemperatureCompensateSP.name))
-          {
+    // handle temperature compensation
+    if(!strcmp(name, TemperatureCompensateSP.name))
+    {
       IUUpdateSwitch(&TemperatureCompensateSP, states, names, n);
 
       if ( TemperatureCompensateS[0].s == ISS_ON)
@@ -859,18 +859,18 @@ void AstroberryFocuser::stepMotor(int direction)
   }
 
   if (resolution == 1)
-  {	//Full Step
+  {  //Full Step
     gpiod_line_set_value(gpio_in1, fullStep[currentStep][0]);
-          gpiod_line_set_value(gpio_in2, fullStep[currentStep][1]);
-          gpiod_line_set_value(gpio_in3, fullStep[currentStep][2]);
-          gpiod_line_set_value(gpio_in4, fullStep[currentStep][3]);
+    gpiod_line_set_value(gpio_in2, fullStep[currentStep][1]);
+    gpiod_line_set_value(gpio_in3, fullStep[currentStep][2]);
+    gpiod_line_set_value(gpio_in4, fullStep[currentStep][3]);
   }
   else if (resolution == 2)
-  {	//Half Step
+  {  //Half Step
     gpiod_line_set_value(gpio_in1, halfStep[currentStep][0]);
-                gpiod_line_set_value(gpio_in2, halfStep[currentStep][1]);
-                gpiod_line_set_value(gpio_in3, halfStep[currentStep][2]);
-                gpiod_line_set_value(gpio_in4, halfStep[currentStep][3]);
+    gpiod_line_set_value(gpio_in2, halfStep[currentStep][1]);
+    gpiod_line_set_value(gpio_in3, halfStep[currentStep][2]);
+    gpiod_line_set_value(gpio_in4, halfStep[currentStep][3]);
   }
 }
 
